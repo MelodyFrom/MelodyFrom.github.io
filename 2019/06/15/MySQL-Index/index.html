@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | 高鹏的个人博客</title>
+  <title>MySQL锁问题-InnoDB的锁与事务 | 高鹏的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这个人很懒，什么都没有留下">
-<meta name="keywords" content="Java">
-<meta property="og:type" content="website">
-<meta property="og:title" content="高鹏的个人博客">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+  <meta name="description" content="一 综述MySQL 的锁机制相较其他的数据库比较简单，最显著的特点是不同的存储引擎支持不同的锁机制。主要有三种类型的锁  表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生冲突的概率最高，并发度最低。支持表级锁的代表是 MyISAM 引擎。 行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度最高。支持行级锁的代表是 InnoDB 引擎。 页面锁：开销和加锁时间介于表">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL锁问题-InnoDB的锁与事务">
+<meta property="og:url" content="http://yoursite.com/2019/06/15/MySQL-Index/index.html">
 <meta property="og:site_name" content="高鹏的个人博客">
-<meta property="og:description" content="这个人很懒，什么都没有留下">
+<meta property="og:description" content="一 综述MySQL 的锁机制相较其他的数据库比较简单，最显著的特点是不同的存储引擎支持不同的锁机制。主要有三种类型的锁  表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生冲突的概率最高，并发度最低。支持表级锁的代表是 MyISAM 引擎。 行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度最高。支持行级锁的代表是 InnoDB 引擎。 页面锁：开销和加锁时间介于表">
 <meta property="og:locale" content="中文">
+<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522316908849&di=7e73ac916e87e1a57228495fad7bd3aa&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2236986433%2C881458305%26fm%3D214%26gp%3D0.jpg">
+<meta property="og:updated_time" content="2019-06-15T12:05:03.158Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高鹏的个人博客">
-<meta name="twitter:description" content="这个人很懒，什么都没有留下">
+<meta name="twitter:title" content="MySQL锁问题-InnoDB的锁与事务">
+<meta name="twitter:description" content="一 综述MySQL 的锁机制相较其他的数据库比较简单，最显著的特点是不同的存储引擎支持不同的锁机制。主要有三种类型的锁  表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生冲突的概率最高，并发度最低。支持表级锁的代表是 MyISAM 引擎。 行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度最高。支持行级锁的代表是 InnoDB 引擎。 页面锁：开销和加锁时间介于表">
+<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522316908849&di=7e73ac916e87e1a57228495fad7bd3aa&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2236986433%2C881458305%26fm%3D214%26gp%3D0.jpg">
   
     <link rel="alternative" href="/atom.xml" title="高鹏的个人博客" type="application/atom+xml">
   
@@ -158,36 +161,227 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySQL-Index" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/15/MySQL-Index/" class="archive-article-date">
-  	<time datetime="2019-06-15T11:43:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-15</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/15/MySQL-Index/">MySQL锁问题-InnoDB的锁与事务</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL锁问题-InnoDB的锁与事务
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/06/15/MySQL-Index/" class="archive-article-date">
+  	<time datetime="2019-06-15T11:43:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一-综述"><a href="#一-综述" class="headerlink" title="一 综述"></a>一 综述</h2><p>MySQL 的锁机制相较其他的数据库比较简单，<strong>最显著的特点是不同的存储引擎支持不同的锁机制</strong>。主要有三种类型的锁</p>
+<ol>
+<li>表级锁：开销小，加锁快；<strong>不会出现死锁</strong>；锁定粒度大，发生冲突的概率最高，并发度最低。支持表级锁的代表是 MyISAM 引擎。</li>
+<li>行级锁：开销大，加锁慢；<strong>会出现死锁</strong>；锁定粒度最小，发生锁冲突的概率最低，并发度最高。支持行级锁的代表是 InnoDB 引擎。</li>
+<li>页面锁：开销和加锁时间介于表级锁和行级锁之间；<strong>会出现死锁</strong>；锁定粒度介于表级锁和行级锁之间。支持页面锁代表是 BDB 引擎。</li>
+</ol>
+<p>就锁本身的特点来说，各有优势。所以具体采用什么级别的锁还是要结合实际的应用场景。比如大量查询为主，少量以索引条件的更新数据应用适合表级锁；而又大量按索引执行更新操作的应用则适合行级锁。</p>
+<p>参考资料</p>
+<p>《深入浅出 MySQL》 目前博客上的数据库总结资料，可能会多次引用书中内容。</p>
+<a id="more"></a>
+
+<h2 id="二-MyISAM-表锁"><a href="#二-MyISAM-表锁" class="headerlink" title="二 MyISAM 表锁"></a>二 MyISAM 表锁</h2><h3 id="1-查询表级锁争用情况"><a href="#1-查询表级锁争用情况" class="headerlink" title="1 查询表级锁争用情况"></a>1 查询表级锁争用情况</h3><pre><code>show status like &apos;table%&apos;;</code></pre><p>如果结果字段 <strong>Table_locks_waited</strong> 的值比较高，则说明存在比较严重的锁争用。</p>
+<h3 id="2-表级锁的锁模式"><a href="#2-表级锁的锁模式" class="headerlink" title="2 表级锁的锁模式"></a>2 表级锁的锁模式</h3><ul>
+<li>表共享锁(Table Read Lock)</li>
+<li>表独占写锁(Table Write Lock)</li>
+</ul>
+<p>锁之间是兼容情况可以用一句话阐述：<strong>共享锁与任何锁兼容，而独占锁与任何锁都不兼容。</strong></p>
+<p>因此对 MyISAM 的读操作不会阻塞其他用户对同一张表的读请求，但是会阻塞对同一个表的写请求；对应的写操作会阻塞其他用户对同一张表的读/写操作。</p>
+<p><strong>表的读操作与写操作之间，以及写操作与写操作之间都是串行的。</strong> 当一个线程获得一个表的写锁之后，只有持有锁的线程可以对表进行更新操作，其他线程的读、写操作都会等待直到锁被释放。</p>
+<h4 id="2-1-应用示例"><a href="#2-1-应用示例" class="headerlink" title="2.1 应用示例"></a>2.1 应用示例</h4><p>这是一个“写锁阻塞读操作”的例子</p>
+<p>session1 中对表 test_lock 加锁并写入一条数据</p>
+<pre><code>lock table test_lock write;
+insert into test_lock (id, value) VALUES (1, &apos;fail&apos;);</code></pre><p>session2 在 session1 操作过程中(此时并没有释放锁)执行一次查询操作</p>
+<pre><code>SELECT * FROM test_lock;</code></pre><p>结果发现 session2 的操作进入阻塞状态。此时再切换到 session1 将持有的写锁释放</p>
+<pre><code>unlock table test_lock;</code></pre><p>释放锁后 session2 的查询操作得到结果。</p>
+<h4 id="2-2-如何加表锁"><a href="#2-2-如何加表锁" class="headerlink" title="2.2 如何加表锁"></a>2.2 如何加表锁</h4><p>实际上MyISAM在执行查询语句的时候会 <strong>自动给涉及到的所有表加读锁</strong>，在执行更新操作的时候 <strong>会自动给涉及的表加写锁</strong>。即这个过程并不需要用户干预，因此用户 <strong>一般不需要使用前面示例中的语句来显式的加锁。</strong></p>
+<p>在一些特殊的情况下需要我们显式加锁，不过这个是为了模拟事务操作。比如两张表 order 与 order_detail 都有一个金额总计字段，现在需要检查匹配两个表的金额是否一致。</p>
+<pre><code>lock tables orders read local, order_detail read local;
+select sum(total) from orders;
+select sum(subtotal) from orders;
+unlock tables;</code></pre><p>在用 LOCK TABLE 给表显式加锁时，必须同时获取到所有涉及表的锁，并且 MyISAM 不支持锁升级。</p>
+<p>另外，锁定一个表，还要顺带锁定这个表的所有别名，否则会报错。</p>
+<pre><code>lock table test_lock as a,test_lock as b;</code></pre><h4 id="2-3-并发插入"><a href="#2-3-并发插入" class="headerlink" title="2.3 并发插入"></a>2.3 并发插入</h4><p>MyISAM表的读和写操作是串行的，这是总体上来看的。加上部分限制，MyISAM也支持在读的同时并发写。</p>
+<p>存储引擎有两个系统变量</p>
+<pre><code>concurrent_insert</code></pre><p>这个值的可选值有0,1,2三个。</p>
+<ul>
+<li>0 设置为 0 表示 <strong>不允许并发插入</strong></li>
+<li>1 设置为 1 表示 <strong>如果表中没有空洞，则允许在一个线程读表的同时，另一个线程从表尾插入。</strong> 这也是 MyISAM 的默认选项。</li>
+<li>2 设置为 2 表示 <strong>不论表中有没有空洞，都允许从表尾进行并发插入操作。</strong></li>
+</ul>
+<p>这个特性可以用来处理应用中对同一表查询和插入操作的争用。比如将这个系统变量设置为 2 的时候，总是允许并发插入，同时通过定期在系统空闲时执行 OPTIMIZE TABLE 语句来整理空间碎片，收回空洞。</p>
+<h4 id="2-4-MyISAM-的锁调度"><a href="#2-4-MyISAM-的锁调度" class="headerlink" title="2.4 MyISAM 的锁调度"></a>2.4 MyISAM 的锁调度</h4><p>一个进程在请求某个 MyISAM 表的读锁，另一个线程此时也正在请求同一个表的写锁，这种情况下总是写锁请求先获得锁，哪怕按照排队顺序读锁在写锁之前。<strong>这是 MyISAM 表不适合有大量更新操作和查询操作原因。</strong></p>
+<p>不过可以通过一些设置来调节这些调度行为</p>
+<ul>
+<li>指定启动参数 low-priority-updates，让引擎默认给予 <strong>读请求优先的权利</strong>。</li>
+<li>执行命令 SET LOW_PRIORITY_UPDATES = 1，使该连接发出的更新其请求优先级降低。</li>
+<li>指定 INSERT, UPDATE, DELETE 语句的 LOW_PRIORITY 属性，降低该语句的优先级。</li>
+</ul>
+<p>这三种办法都是要么更新优先，要么查询优先的方法，但是还是可以用来解决查询相对重要的场景中读锁等待时间过长的问题。</p>
+<p>除此之外还有一种调度调节方法</p>
+<pre><code>max_write_lock_count</code></pre><p>该参数也可以用来调节读写冲突。设置一个值后，MySQL 在一个表的读锁达到这个值后，暂时将写请求的优先级降低，给读进程一定获得锁的机会。</p>
+<p>另外，一些需要长时间运行的查询操作应该尽量避免，如果一定要执行，可以安排到数据库压力不那么大的时间短执行，比如半夜。</p>
+<h2 id="三-InnoDB-锁问题"><a href="#三-InnoDB-锁问题" class="headerlink" title="三 InnoDB 锁问题"></a>三 InnoDB 锁问题</h2><p>首先 InnoDB 与 MyISAM 之间最大的区别是</p>
+<ol>
+<li>支持事务( TRANSACTION )</li>
+<li>采用了行级锁</li>
+</ol>
+<h4 id="3-1-获取-InnoDB-的行锁争用情况"><a href="#3-1-获取-InnoDB-的行锁争用情况" class="headerlink" title="3.1 获取 InnoDB 的行锁争用情况"></a>3.1 获取 InnoDB 的行锁争用情况</h4><pre><code>show status like &apos;innoDB_row_lock%&apos;
+// output
+Innodb_row_lock_current_waits    0
+Innodb_row_lock_time    181621
+Innodb_row_lock_time_avg    321
+Innodb_row_lock_time_max    20824
+Innodb_row_lock_waits    565</code></pre><table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Innodb_row_lock_current_waits</td>
+<td>当前处于等待状态的锁数量</td>
+</tr>
+<tr>
+<td>Innodb_row_lock_time</td>
+<td>启动到现在锁定的总时间长度</td>
+</tr>
+<tr>
+<td>Innodb_row_lock_time_avg</td>
+<td>平均每次锁定的时长(ms)</td>
+</tr>
+<tr>
+<td>Innodb_row_lock_time_max</td>
+<td>最长的一次锁定时间(ms)</td>
+</tr>
+<tr>
+<td>Innodb_row_lock_waits</td>
+<td>启动到现在总计是锁定次数</td>
+</tr>
+</tbody></table>
+<p>如果锁争用比较严重，那么字段 Innodb_row_lock_current_waits 与 Innodb_row_lock_time_avg 值都会比较高。具体的调优手段和参数这里暂且不表，我们继续了解InnoDB锁与其事务间的关系。</p>
+<p><strong>背景知识</strong></p>
+<p><a href="http://note.youdao.com/noteshare?id=e494251b39aae9bc16999234eb634cc6&sub=EC5239CB2C694B45996494F9DDAB0B20" target="_blank" rel="noopener">MySQL事务简单回顾</a></p>
+<h4 id="3-2-行锁模式以及加锁方法"><a href="#3-2-行锁模式以及加锁方法" class="headerlink" title="3.2 行锁模式以及加锁方法"></a>3.2 行锁模式以及加锁方法</h4><p>InnoDB 有以下两种类型的锁</p>
+<ol>
+<li>共享锁(S)：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。</li>
+<li>排他锁(X)：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁。</li>
+</ol>
+<p>除此之外还有两种意向锁</p>
+<ol start="3">
+<li>意向共享锁(IS)：事务打算给数据行加行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁。</li>
+<li>意向排他锁(IX)：事务打算给数据行加行排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁。</li>
+</ol>
+<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522316908849&di=7e73ac916e87e1a57228495fad7bd3aa&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2236986433%2C881458305%26fm%3D214%26gp%3D0.jpg" alt="image"></p>
+<p>意向锁是InnoDB自动加的，不需要用户干预。UPDATE/DELETE/INSERT 语句 InnoDB 会自动给涉及的数据集加排他锁。普通的 SELECT 语句 InnoDB 不加锁。不过可以在语句中显式的给数据集加共享锁或者排他锁。</p>
+<p><strong>在 RC（read commited）级别中，数据的读取都是不加锁的，但是数据的写入、修改和删除是需要加锁的。</strong></p>
+<p><strong>InnoDB 行锁是通过给索引项加锁实现的，如果没有索引，InnoDB 将通过隐藏的聚簇索引来对记录加锁。</strong> InnoDB 行锁有三种情形：</p>
+<ol>
+<li>Record Lock：对索引项加锁</li>
+<li>Gap Lock：对索引之间的“间隙”、第一条记录前的“间隙”或最后一条记录的“间隙”加锁。</li>
+<li>Next-key lock：前两种的组合，对记录及其前面的间隙加锁。</li>
+</ol>
+<p><strong>如果不通过索引条件检索数据，那么 InnoDB 将对表中的所有记录加锁，实际效果就和表锁一样了。</strong></p>
+<p>如下是一些注意事项及说明</p>
+<p><strong>1. 在不通过索引条件查询时，InnoDB 会锁定表中的所有记录</strong></p>
+<pre><code>// session1
+set autocommit = 0;
+select * from test where col1 = 1 for update;
+// session2
+select * from test where col1 = 2 for update;
+// waiting...</code></pre><p>这是一个串行操作，在session1给表的col1字段的某条记录加了排他锁，在理想情况下session2的操作应该不会受到影响。</p>
+<p>如果col1字段没有设置索引的话，这个阻塞操作就一定会发生。因为检索操作没有走到索引会导致 InnoDB 给所有的记录都加了行锁。这样 session2 的排他锁就无法得到从而进入阻塞状态。</p>
+<p><strong>2. 由于 MySQL 的行锁是针对索引加的锁，不是针对记录加的锁，所以虽然访问不同行的记录，如果使用了相同的索引键，一样会出现锁冲突。</strong></p>
+<table>
+<thead>
+<tr>
+<th>record1</th>
+<th>record2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id=1</td>
+<td>value = 1</td>
+</tr>
+<tr>
+<td>id=1</td>
+<td>value = 4</td>
+</tr>
+</tbody></table>
+<p>表中两条记录，两个字段id，value中仅有id字段有索引。</p>
+<pre><code>// session1
+set autocommit = 0;
+select * from table_test where id = 1 and value = &apos;1&apos; for update;
+
+// session2
+set autocommit = 0;
+select * from table_test where id = 1 and value = &apos;4&apos; for update;
+// waiting</code></pre><p>虽然session2访问的是和session1不同的记录，但是因为使用了相同的索引，所以也还是需要等待锁。</p>
+<p><strong>3. 当表有多个索引的时候，不同的事务可以使用不同的索引锁定不同的行，不论是使用主键索引、唯一索引还是普通索引，InnoDB 都会使用行锁来对数据加锁。</strong></p>
+<p><strong>4. 即便在条件中使用了索引字段，但是是否使用索引来检索数据是由 MySQL 通过判断不同执行计划的代价来决定的，如果 MySQL 认为全表扫描效率更高，比如对一些很小的表，它就不会使用索引，这种情况下 InnoDB 也会对所有记录加锁。</strong></p>
+<h4 id="3-3-Next-key-锁"><a href="#3-3-Next-key-锁" class="headerlink" title="3.3 Next-key 锁"></a>3.3 Next-key 锁</h4><p>当我们使用范围条件而不是相等条件检索数据，请求获得锁，InnoDB 会给符合条件的数据的索引项加锁。</p>
+<pre><code>select * from test where id &gt; 100 for update;</code></pre><p>这是一个范围检索，InnoDB 不仅会对符合条件的记录加锁，还会对大于100的“间隙(即不存在的记录)”加锁。这个检索执行的时候会阻塞100以后id数据的插入操作。</p>
+<p>在使用范围条件检索并锁定记录时，InnoDB 的这种加锁机制会阻塞符合条件范围内键值对的并发插入，会造成严重的锁等待。因此在实际开发中，<strong>尤其是并发插入较多的应用，我们要尽量使用相等的条件来访问和更新数据，避免使用范围检索。</strong></p>
+<p>这里可以联想到我们平时在应用开发的时候可以优化和需要注意的地方：</p>
+<ol>
+<li>理解到查询操作使用的检索条件字段的选择意义，为什么查询条件字段要落到有索引覆盖的字段上：这样可以提升检索速度，避免使用非索引字段引发的锁表。</li>
+<li>关于多列字段组成索引项覆盖的 <strong>最左前缀原则</strong>。了解这个原则并合理地设计和使用。</li>
+<li>值分布单一的项不适合做索引优化，比如性别字段。</li>
+<li>如果选择为一个字符串字段建立索引，在这个字符串字段各条记录区别较为明显地情况下，可以考虑只将这个字符串字段的前 X 位建立索引，这样在不牺牲索引效果的情况下减少索引的空间占用。</li>
+</ol>
+<h2 id="四-乐观锁与悲观锁"><a href="#四-乐观锁与悲观锁" class="headerlink" title="四 乐观锁与悲观锁"></a>四 乐观锁与悲观锁</h2><ul>
+<li>悲观锁：对“数据被修改”这件事情上，持保守态度。所以在处理数据的过程中会对被涉及到的数据加锁。这种思想能够最大程度上保证事务的隔离性。但是这样的思想本身也会降低设计的并发性。典型的有数据库的锁机制；Java代码中的lock与synchronized关键字。</li>
+<li>乐观锁：与悲观锁相反的认知态度。放宽对数据的加锁机制。这里要提一个典型的机制-<strong>MVCC(multiVersion Concurrent Control)</strong>，基于版本的并发控制。</li>
+</ul>
+<p>InnoDB 提供了基于 MVCC 的并发控制机制。通过给数据行附加一个版本号来确保数据对更新的敏感。InnoDB 会在每行数据后添加两个额外的隐藏的值来实现MVCC。在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。 </p>
+<ul>
+<li>SELECT时，读取创建版本号&lt;=当前事务版本号，删除版本号为空或&gt;当前事务版本号。</li>
+<li>INSERT时，保存当前事务版本号为行的创建版本号</li>
+<li>DELETE时，保存当前事务版本号为行的删除版本号</li>
+<li>UPDATE时，插入一条新纪录，保存当前事务版本号为行创建版本号，同时保存当前事务版本号到原来删除的行</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -199,46 +393,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/15/MySQL-Index/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/15/hello-world/" class="archive-article-date">
-  	<time datetime="2019-06-15T05:27:41.052Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-15</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/15/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/15/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -261,8 +515,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
